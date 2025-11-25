@@ -52,10 +52,10 @@ public class EmployeeDAO {
 		transaction.begin();
 		EmployeeDTO employee = manager.find(EmployeeDTO.class, id);
 		if (employee != null) {
-			System.out.printf("%-10s | %-20s | %-20s%n", "EmpID", "Name", "Designation");
+			System.out.printf("%-10s | %-40s | %-20s%n", "EmpID", "Name", "Designation");
 			System.out.println("-----------+----------------------+----------------------");
 
-			System.out.printf("%-10d | %-20s | %-20s%n", employee.getEmpId(), employee.getEmpName(),
+			System.out.printf("%-10d | %-40s | %-20s%n", employee.getEmpId(), employee.getEmpName(),
 					employee.getEmpDesignation());
 			System.out.println("-----------+----------------------+----------------------");
 
@@ -66,11 +66,50 @@ public class EmployeeDAO {
 
 	}
 
-	public static void update(int id) {
-		
+	public static void updateName(int id, String name) {
+		transaction.begin();
+		EmployeeDTO employee = manager.find(EmployeeDTO.class, id);
+		if (employee != null) {
+			System.out.println("Employee Found!!");
+			employee.setEmpName(name);
+			System.out.println("Employee Updated");
+			manager.persist(employee);
+			transaction.commit();
+		} else {
+			System.out.println(id + "Not Found!!");
+			transaction.rollback();
+		}
+
+	}
+
+	public static void updateDesignation(int id, String designation) {
+		transaction.begin();
+		EmployeeDTO employee = manager.find(EmployeeDTO.class, id);
+		if (employee != null) {
+			System.out.println("Employee Found!!");
+			employee.setEmpDesignation(designation);
+			System.out.println("Employee designation updated!!");
+			manager.persist(employee);
+			transaction.commit();
+
+		} else {
+			System.out.println(id + " Not Found!!");
+			transaction.rollback();
+		}
+
 	}
 
 	public static void delete(int id) {
+		transaction.begin();
+		EmployeeDTO employee = manager.find(EmployeeDTO.class, id);
+		if (employee == null) {
+			transaction.rollback();
+			System.out.println("No Employee Found!!");
+		} else {
+			manager.remove(employee);
+			System.out.println(employee.getEmpId() + " deleted successfully!");
+			transaction.commit();
+		}
 
 	}
 
