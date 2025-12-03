@@ -1,12 +1,12 @@
 package com.linkcode.hibernate1.Hibernate1;
 
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
-import jakarta.persistence.ManyToMany;
-
+@Entity
 public class ProjectDTO {
 
+	@Id
 	private int pid;
 	private String pname;
 	private String clientName;

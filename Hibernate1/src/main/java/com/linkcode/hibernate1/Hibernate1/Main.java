@@ -23,10 +23,10 @@ public class Main {
 			System.out.println("10. Remove Employee");
 			System.out.println("11. Remove Company");
 			System.out.println("12. Add Project");
-			System.out.println("13. Search Project");
+			System.out.println("13. Display Project");
 			System.out.println("14. Update Project");
 			System.out.println("15. Delete Project");
-			System.out.println("16. Display Projects");
+			System.out.println("16. Search Projects");
 			System.out.println("17. Remove Projects");
 			System.out.println("18. Exit");
 			System.out.println("Enter your choice?");
@@ -34,9 +34,9 @@ public class Main {
 			switch (ch) {
 			case 1 -> {
 				System.out.println("Which company need to specify?");
-				
+
 				System.out.println("Enter Id");
-				int cid=sc.nextInt();
+				int cid = sc.nextInt();
 				System.out.println("Enter Company Name:");
 				sc.nextLine();
 				String cname = sc.nextLine();
@@ -64,7 +64,7 @@ public class Main {
 						i--;
 					}
 				}
-				
+
 			}
 			case 2 -> {
 				System.out.println("Enter id to search:");
@@ -84,58 +84,105 @@ public class Main {
 			case 5 -> {
 				CompanyDAO.displayAll();
 			}
-			case 6->{
+			case 6 -> {
 				System.out.println("Enter Company Id");
-				int cid=sc.nextInt();
+				int cid = sc.nextInt();
 				System.out.println("Enter Employee Id");
-				int eid=sc.nextInt();
+				int eid = sc.nextInt();
 				System.out.println("Enter Employee Name:");
-				String ename=sc.next();
+				String ename = sc.next();
 				System.out.println("Enter Employee Designation:");
-				String designation=sc.next();
+				String designation = sc.next();
 				CompanyDAO.addEmployeeToCompany(cid, eid, ename, designation);
 			}
-			case 10->{
+			case 7 -> {
+
+			}
+			case 8 -> {
+				System.out.println("Enter id to update:");
+				int id = sc.nextInt();
+				Boolean flag1 = true;
+				while (flag1) {
+					System.out.println("1. Name\n2. Designation\n3. Company\n4. Exit\n");
+					int ch1 = sc.nextInt();
+					switch (ch1) {
+					case 1 -> {
+						System.out.println("Enter Name to update: ");
+						sc.nextLine();
+						String name = sc.nextLine();
+						EmployeeDAO.updateName(id, name);
+					}
+					case 2 -> {
+						System.out.println("Enter Designation to update: ");
+						sc.nextLine();
+						String designation = sc.nextLine();
+						EmployeeDAO.updateDesignation(id, designation);
+					}
+					case 3 -> {
+						System.out.println("Enter Company Id to update: ");
+						int cid = sc.nextInt();
+						EmployeeDAO.updateCompany(id, cid);
+					}
+					case 4 -> {
+						flag1 = false;
+					}
+					}
+				}
+			}
+			case 9 -> {
+				System.out.println("Enter Company Id: ");
+				int cid = sc.nextInt();
+				boolean flag = true;
+				while (flag) {
+					System.out.println("1. Company Name\n2. Company Location\n3. Exit");
+					System.out.println("Enter Your choice:");
+					int ch2 = sc.nextInt();
+					switch (ch2) {
+					case 1 -> {
+						sc.nextLine();
+						System.out.println("Enter name to update");
+						String cname = sc.nextLine();
+						CompanyDAO.updateName(cid, cname);
+					}
+					case 2 -> {
+						sc.nextLine();
+						System.out.println("Enter location to update");
+						String cloc = sc.nextLine();
+						CompanyDAO.updateLoc(cid, cloc);
+
+					}
+					case 3 -> {
+						flag = false;
+					}
+					}
+
+				}
+
+			}
+			case 10 -> {
 				System.out.println("Enter Employee ID: ");
-				int eid=sc.nextInt();
+				int eid = sc.nextInt();
 				EmployeeDAO.removeEmployee(eid);
 			}
-			case 11->{
+			case 11 -> {
 				System.out.println("Enter Company ID: ");
-				int cid=sc.nextInt();
+				int cid = sc.nextInt();
 				CompanyDAO.removeCompany(cid);
 			}
-//			case 4 -> {
-//				System.out.println("Enter id to update:");
-//				int id = sc.nextInt();
-//				Boolean flag1 = true;
-//				while (flag1) {
-//					System.out.println("1. Name\n2. Designation\n3. Exit\n");
-//					int ch1 = sc.nextInt();
-//					switch (ch1) {
-//					case 1 -> {
-//						System.out.println("Enter Name to update: ");
-//						sc.nextLine();
-//						String name = sc.nextLine();
-//						EmployeeDAO.updateName(id, name);
-//					}
-//					case 2 -> {
-//						System.out.println("Enter Designation to update: ");
-//						sc.nextLine();
-//						String designation = sc.nextLine();
-//						EmployeeDAO.updateDesignation(id, designation);
-//					}
-//					case 3 -> {
-//						flag1 = false;
-//					}
-//					}
-//				}
-//			}
-//			case 5 -> {
-//				System.out.println("Enter id to delete");
-//				int id = sc.nextInt();
-//				EmployeeDAO.delete(id);
-//			}
+			case 12 -> {
+				System.out.println("Enter Project ID: ");
+				int pid = sc.nextInt();
+				sc.nextLine();
+				System.out.println("Enter Project Name: ");
+				String pname = sc.nextLine();
+				System.out.println("Enter Project Client Name");
+				String cName = sc.nextLine();
+				ProjectDAO.addProject(pid, pname, cName);
+			}
+			
+			case 13->{
+				
+			}
 			case 18 -> {
 				System.out.println("Connection closed");
 				HibernateUtil.shutdown();

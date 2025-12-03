@@ -18,12 +18,12 @@ public class EmployeeDAO {
 				transaction.rollback();
 				throw new DuplicateEmployeeException("Employee with ID " + id + " already exists!");
 			}
-		
-	        CompanyDTO company = manager.find(CompanyDTO.class, companyId);
-	        if (company == null) {
-	            transaction.rollback();
-	            throw new RuntimeException("Company with ID " + companyId + " does not exist!");
-	        }
+
+			CompanyDTO company = manager.find(CompanyDTO.class, companyId);
+			if (company == null) {
+				transaction.rollback();
+				throw new RuntimeException("Company with ID " + companyId + " does not exist!");
+			}
 
 			EmployeeDTO emp = new EmployeeDTO();
 			emp.setEmpId(id);
@@ -37,8 +37,7 @@ public class EmployeeDAO {
 			if (transaction.isActive())
 				transaction.rollback();
 			e.printStackTrace();
-		}
-		finally {
+		} finally {
 			manager.close();
 		}
 
@@ -63,7 +62,7 @@ public class EmployeeDAO {
 						"-----------+----------------------------------------+--------------------+--------------------------------+--------------------");
 
 				transaction.commit();
-			
+
 			} else {
 				System.out.println("Employee Not Found");
 			}
@@ -71,8 +70,7 @@ public class EmployeeDAO {
 			if (transaction.isActive())
 				transaction.rollback();
 			e.printStackTrace();
-		}
-		finally {
+		} finally {
 			manager.close();
 		}
 
@@ -98,34 +96,56 @@ public class EmployeeDAO {
 						"-----------+----------------------------------------+--------------------+--------------------------------+--------------------");
 			}
 			transaction.commit();
-		
+
 		} catch (Exception e) {
 			if (transaction.isActive())
 				transaction.rollback();
 			e.printStackTrace();
-		}
-		finally {
+		} finally {
 			manager.close();
 		}
 	}
 
 	public static void removeEmployee(int eid) {
 		// TODO Auto-generated method stub
-		EntityManager manager=HibernateUtil.getEntityManager();
-		EntityTransaction transaction=manager.getTransaction();
+		EntityManager manager = HibernateUtil.getEntityManager();
+		EntityTransaction transaction = manager.getTransaction();
 		try {
 			transaction.begin();
-			EmployeeDTO employee=manager.find(EmployeeDTO.class, eid);
-			if(employee==null) {
+			EmployeeDTO employee = manager.find(EmployeeDTO.class, eid);
+			if (employee == null) {
 				transaction.rollback();
 				System.out.println("Employee Not Found");
-			}
-			else {
+			} else {
 				manager.remove(employee);
 				System.out.println("Employee Deleted Successfully");
 				transaction.commit();
 			}
+		} catch (Exception e) {
+			if (transaction.isActive())
+				transaction.rollback();
+			e.printStackTrace();
+		} finally {
+			manager.close();
 		}
+	}
+
+	public static void updateName(int id, String name) {
+		EntityManager manager=HibernateUtil.getEntityManager();
+		EntityTransaction transaction=manager.getTransaction();
+		try {
+		transaction.begin();
+		EmployeeDTO employee = manager.find(EmployeeDTO.class, id);
+		if (employee != null) {
+			System.out.println("Employee Found!!");
+			employee.setEmpName(name);
+			System.out.println("Employee Updated");
+			manager.persist(employee);
+			transaction.commit();
+		} else {
+			System.out.println(id + "Not Found!!");
+			transaction.rollback();
+		}}
 		catch(Exception e) {
 			if(transaction.isActive()) transaction.rollback();
 			e.printStackTrace();
@@ -133,38 +153,54 @@ public class EmployeeDAO {
 		finally {
 			manager.close();
 		}
+
+	}
+
+	public static void updateDesignation(int id, String designation) {
+		EntityManager manager=HibernateUtil.getEntityManager();
+		EntityTransaction transaction=manager.getTransaction();
+		try {
+		transaction.begin();
+		EmployeeDTO employee = manager.find(EmployeeDTO.class, id);
+		if (employee != null) {
+			System.out.println("Employee Found!!");
+			employee.setEmpDesignation(designation);
+			System.out.println("Employee designation updated!!");
+			manager.persist(employee);
+			transaction.commit();
+
+		} else {
+			System.out.println(id + " Not Found!!");
+			transaction.rollback();
+		}
+		}
+		catch(Exception e) {
+			if(transaction.isActive()) transaction.rollback();
+			e.printStackTrace();
+		}
+	}
+
+	public static void updateCompany(int eid, int cid) {
+		// TODO Auto-generated method stub
+		EntityManager manager=HibernateUtil.getEntityManager();
+		EntityTransaction transaction=manager.getTransaction();
+		try {
+			transaction.begin();
+			EmployeeDTO emp=manager.find(EmployeeDTO.class, eid);
+			CompanyDTO company=manager.find(CompanyDTO.class, cid);
+			if(emp!=null && company!=null) {
+				emp.setCompany(company);	
+			}
+			else {
+				System.out.println("Record not found");
+				transaction.rollback();
+			}
+			transaction.commit();
+			manager.close();
+		}
+		catch(Exception e) {
+			if(transaction.isActive()) transaction.rollback();
+			e.printStackTrace();
+		}
 	}
 }
-//	public static void updateName(int id, String name) {
-//		transaction.begin();
-//		EmployeeDTO employee = manager.find(EmployeeDTO.class, id);
-//		if (employee != null) {
-//			System.out.println("Employee Found!!");
-//			employee.setEmpName(name);
-//			System.out.println("Employee Updated");
-//			manager.persist(employee);
-//			transaction.commit();
-//		} else {
-//			System.out.println(id + "Not Found!!");
-//			transaction.rollback();
-//		}
-//
-//	}
-//
-//	public static void updateDesignation(int id, String designation) {
-//		transaction.begin();
-//		EmployeeDTO employee = manager.find(EmployeeDTO.class, id);
-//		if (employee != null) {
-//			System.out.println("Employee Found!!");
-//			employee.setEmpDesignation(designation);
-//			System.out.println("Employee designation updated!!");
-//			manager.persist(employee);
-//			transaction.commit();
-//
-//		} else {
-//			System.out.println(id + " Not Found!!");
-//			transaction.rollback();
-//		}
-//
-//	}
-

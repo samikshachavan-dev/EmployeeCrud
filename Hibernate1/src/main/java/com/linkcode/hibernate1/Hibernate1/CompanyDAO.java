@@ -161,4 +161,61 @@ public class CompanyDAO {
 		}
 	}
 
+	public static void updateName(int cid, String cname) {
+		// TODO Auto-generated method stub
+		EntityManager manager=HibernateUtil.getEntityManager();
+		EntityTransaction transaction=manager.getTransaction();
+		try {
+			transaction.begin();
+			CompanyDTO company=manager.find(CompanyDTO.class, cid);
+			if(company!=null) {
+				company.setCname(cname);
+				System.out.println("Company Name Updated");
+				transaction.commit();
+				
+			}
+			else {
+				System.out.println("Company Not Found");
+				transaction.rollback();
+			}
+			
+		}
+		catch(Exception e) {
+			if(transaction.isActive()) transaction.rollback();
+			e.printStackTrace();
+		}
+		finally {
+			manager.close();
+		}
+		
+	}
+
+	public static void updateLoc(int cid, String cloc) {
+		// TODO Auto-generated method stub
+		EntityManager manager=HibernateUtil.getEntityManager();
+		EntityTransaction transaction=manager.getTransaction();
+		try {
+			transaction.begin();
+			CompanyDTO company=manager.find(CompanyDTO.class, cid);
+			if(company!=null) {
+				company.setLoc(cloc);
+				System.out.println("Company Location Updated");
+				transaction.commit();
+				
+			}
+			else {
+				System.out.println("Company Not Found");
+				transaction.rollback();
+			}
+		
+		}
+		catch(Exception e) {
+			if(transaction.isActive()) transaction.rollback();
+			e.printStackTrace();
+		}
+		finally {
+			manager.close();
+		}
+	}
+
 }
