@@ -1,6 +1,6 @@
 ==================== PROJECT MANAGEMENT SYSTEM ====================
 
-1.  Company Module
+1.  Company Module 
     1.1 Add Company & Employees
     1.2 Search Company
     1.3 Display All Companies
