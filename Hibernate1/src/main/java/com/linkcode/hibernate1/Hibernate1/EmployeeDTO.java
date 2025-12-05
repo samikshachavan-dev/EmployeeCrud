@@ -22,13 +22,14 @@ public class EmployeeDTO {
 	@JoinColumn(name="company_id")
 	private CompanyDTO company;
 	
-//	@ManyToMany
-//	@JoinTable(
-//	        name = "employee_project",
-//	        joinColumns = @JoinColumn(name = "emp_id"),
-//	        inverseJoinColumns = @JoinColumn(name = "project_id")
-//	    )
-//	private List<ProjectDTO> projectList=new ArrayList<>();
+	@ManyToMany
+	@JoinTable(
+	        name = "employee_project",
+	        joinColumns = @JoinColumn(name = "emp_id"),
+	        inverseJoinColumns = @JoinColumn(name = "project_id")
+	    )
+	
+	private List<ProjectDTO> projectList=new ArrayList<>();
 
 	public EmployeeDTO() {
 		
@@ -36,13 +37,13 @@ public class EmployeeDTO {
 	public int getEmpId() {
 		return empId;
 	}
-//
-//	public List<ProjectDTO> getProjectList() {
-//		return projectList;
-//	}
-//	public void setProjectList(List<ProjectDTO> projectList) {
-//		this.projectList = projectList;
-//	}
+
+	public List<ProjectDTO> getProjectList() {
+		return projectList;
+	}
+	public void setProjectList(List<ProjectDTO> projectList) {
+		this.projectList = projectList;
+	}
 	public void setEmpId(int empId) {
 		this.empId = empId;
 	}

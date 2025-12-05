@@ -1,7 +1,13 @@
 package com.linkcode.hibernate1.Hibernate1;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class ProjectDTO {
@@ -11,8 +17,20 @@ public class ProjectDTO {
 	private String pname;
 	private String clientName;
 	
-//	@ManyToMany(mappedBy="projects")
-//	private List<EmployeeDTO> empList=new ArrayList<>();
+	@ManyToMany(mappedBy="projectList")
+	private List<EmployeeDTO> emplist=new ArrayList<>();
+	
+	@ManyToOne
+	@JoinColumn(name = "company_id")
+	private CompanyDTO company;
+
+	public CompanyDTO getCompany() {
+		return company;
+	}
+
+	public void setCompany(CompanyDTO company) {
+		this.company = company;
+	}
 
 	public int getPid() {
 		return pid;
@@ -38,13 +56,13 @@ public class ProjectDTO {
 		this.clientName = clientName;
 	}
 
-//	public List<EmployeeDTO> getEmpList() {
-//		return empList;
-//	}
-//
-//	public void setEmpList(List<EmployeeDTO> empList) {
-//		this.empList = empList;
-//	}
-//	
+	public List<EmployeeDTO> getEmpList() {
+		return emplist;
+	}
+
+	public void setEmpList(List<EmployeeDTO> empList) {
+		this.emplist = empList;
+	}
+	
 	
 }

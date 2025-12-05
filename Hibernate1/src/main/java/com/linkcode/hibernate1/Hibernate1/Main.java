@@ -25,9 +25,9 @@ public class Main {
 			System.out.println("12. Add Project");
 			System.out.println("13. Display Project");
 			System.out.println("14. Update Project");
-			System.out.println("15. Delete Project");
+			System.out.println("15. Remove Project");
 			System.out.println("16. Search Projects");
-			System.out.println("17. Remove Projects");
+			System.out.println("17. Add Projects to Company");
 			System.out.println("18. Exit");
 			System.out.println("Enter your choice?");
 			int ch = sc.nextInt();
@@ -96,7 +96,16 @@ public class Main {
 				CompanyDAO.addEmployeeToCompany(cid, eid, ename, designation);
 			}
 			case 7 -> {
-
+				System.out.println("Enter project id:");
+				int pid = sc.nextInt();
+				EmployeeDAO.displayAll();
+				System.out.println("How many employees you want to add?");
+				int n = sc.nextInt();
+				for (int i = 0; i < n; i++) {
+					System.out.println("Enter employee id to add employees");
+					int eid = sc.nextInt();
+					ProjectDAO.addEmployeeToProject(pid, eid);
+				}
 			}
 			case 8 -> {
 				System.out.println("Enter id to update:");
@@ -179,9 +188,57 @@ public class Main {
 				String cName = sc.nextLine();
 				ProjectDAO.addProject(pid, pname, cName);
 			}
-			
-			case 13->{
-				
+
+			case 13 -> {
+				ProjectDAO.displayAll();
+			}
+			case 14 -> {
+				System.out.println("Enter Project Id to update: ");
+				int pid = sc.nextInt();
+				boolean updateRunning = true;
+				while (updateRunning) {
+					System.out.println("1. Project Name\n2. Project Client Name\n3. Project Company\n4. Exit");
+					System.out.println("Enter you choice: ");
+					int updateChoice = sc.nextInt();
+					switch(updateChoice) {
+					case 1->{
+						System.out.println("Enter Name To Update");
+						String pname=sc.next();
+						ProjectDAO.updateName(pid, pname);
+					}
+					case 2->{
+						System.out.println("Enter Client To Update");
+						String clientName=sc.next();
+						ProjectDAO.updateClientName(pid, clientName);
+					}
+					case 3->{
+						CompanyDAO.displayAll();
+						System.out.println("Enter Company Id to Update");
+						int cid=sc.nextInt();
+						ProjectDAO.updateCompany(pid, cid);
+					}
+					case 4->{
+						updateRunning=false;
+					}
+					}
+				}
+			}
+			case 15 -> {
+				System.out.println("Enter Project Id to delete:");
+				int pid = sc.nextInt();
+				ProjectDAO.removeProject(pid);
+			}
+			case 16 -> {
+				System.out.println("Enter Project Id to search:");
+				int pid = sc.nextInt();
+				ProjectDAO.searchProject(pid);
+			}
+			case 17 -> {
+				System.out.println("Enter Project Id:");
+				int pid = sc.nextInt();
+				System.out.println("Enter Company Id:");
+				int cid = sc.nextInt();
+				ProjectDAO.addProjectToCompany(pid, cid);
 			}
 			case 18 -> {
 				System.out.println("Connection closed");
